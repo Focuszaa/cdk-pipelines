@@ -21,11 +21,10 @@
     "typescript": "~3.9.7"
   },
   "dependencies": {
-    "@aws-cdk/aws-apigatewayv2": "^1.168.0",
-    "@aws-cdk/aws-apigatewayv2-authorizers": "^1.168.0",
-    "@aws-cdk/aws-apigatewayv2-integrations": "^1.168.0",
-    "@aws-cdk/core": "^1.168.0",
-    "aws-cdk-lib": "2.24.1",
+    "@aws-cdk/aws-apigatewayv2-alpha": "^2.37.1-alpha.0",
+    "@aws-cdk/aws-apigatewayv2-authorizers-alpha": "^2.37.1-alpha.0",
+    "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.37.1-alpha.0",
+    "aws-cdk-lib": "^2.24.1",
     "constructs": "^10.0.0",
     "source-map-support": "^0.5.21"
   }
