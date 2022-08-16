@@ -1,17 +1,20 @@
-// import * as cdk from 'aws-cdk-lib';
-import * as cdk from '@aws-cdk/core';
-// import { Construct } from 'constructs';
+import * as cdk from 'aws-cdk-lib';
+// import * as cdk from '@aws-cdk/core';
+ import { Construct } from 'constructs';
+ import { Code, Function, Runtime, Tracing } from 'aws-cdk-lib/aws-lambda';
+ import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 // import { Code, Function, InlineCode, Runtime } from 'aws-cdk-lib/aws-lambda';
-import { Code, Function, Runtime, Tracing } from '@aws-cdk/aws-lambda';
+// import { Code, Function, Runtime, Tracing } from '@aws-cdk/aws-lambda';
 // import { getDefaultRole } from './cdk-custom-role';
 import { HttpApi, HttpStage, HttpMethod } from '@aws-cdk/aws-apigatewayv2';
+import { RestApi } from 'aws-cdk-lib/aws-apigateway';
 // import { HttpLambdaAuthorizer } from '@aws-cdk/aws-apigatewayv2-authorizers';
 import { CustomDomainStack } from './cdk-custom-domain-stack';
 import { HttpLambdaAuthorizer, HttpLambdaResponseType } from '@aws-cdk/aws-apigatewayv2-authorizers';
 // import { HttpLambdaAuthorizer } from '@aws-cdk/aws-apigatewayv2-authorizers';
 import { RemovalPolicy, Stack } from '@aws-cdk/core';
 // import { RetentionDays } from 'aws-cdk-lib/aws-logs';
-import { RetentionDays } from '@aws-cdk/aws-logs';
+// import { RetentionDays } from '@aws-cdk/aws-logs';
 import { HttpLambdaIntegration } from '@aws-cdk/aws-apigatewayv2-integrations';
 
 interface RemoteLambdaConstructorProps extends cdk.StackProps {
@@ -24,13 +27,13 @@ export class LambdaStageRemoteProps implements cdk.StackProps {
   route53ZoneName;
   stageName;
   env;
-  description;
+  // description;
 
   constructor({ stageName, route53ZoneName, env, description }: RemoteLambdaConstructorProps) {
     this.stageName = stageName;
     this.route53ZoneName = route53ZoneName;
     this.env = env;
-    this.description = description;
+    // this.description = description;
   }
 }
 
@@ -44,7 +47,7 @@ export class MyLambdaStack extends cdk.Stack {
   private readonly stage?: HttpStage;
   private readonly auth?: AuthFunction;
 
-  constructor(scope: cdk.Construct, id: string, props: LambdaStageRemoteProps) {
+  constructor(scope: Construct, id: string, props: LambdaStageRemoteProps) {
     super(scope, id, props);
 
     const { stageName } = props;
@@ -77,7 +80,7 @@ export class MyLambdaStack extends cdk.Stack {
       handler: 'index.handler',
       code: Code.fromAsset('src/authorizer'),
       timeout: cdk.Duration.seconds(60),
-      logRetention: RetentionDays.THREE_MONTHS,
+      logRetention: RetentionDays.ONE_WEEK,
       // tracing: Tracing.ACTIVE,
     });
 
@@ -97,16 +100,27 @@ export class MyLambdaStack extends cdk.Stack {
       authorizer,
     };
 
-    const api = new HttpApi(this, 'API', {
-      apiName: `cdkPipeline-${stageName}`,
-      description: `cdkPipeline ${stageName}`,
-      // createDefaultStage: !isRemote,
-      disableExecuteApiEndpoint: true,
-    });
-    api.applyRemovalPolicy(RemovalPolicy.RETAIN)
+    const CdkRestApix = new RestApi(this, 'restapi',{
+      description: "test rest api",
+    })
+    CdkRestApix.applyRemovalPolicy(RemovalPolicy.RETAIN)
+    
+    // need to fix here
+    const api = new HttpApi(this, 'test', {
+      apiName: "test",
+      description: "testest"
+    })
+
+    // const api = new HttpApi(this, 'API', {
+    //   apiName: `cdkPipeline-${stageName}`,
+    //   description: `cdkPipeline ${stageName}`,
+    //   // createDefaultStage: !isRemote,
+    //   disableExecuteApiEndpoint: true,
+    // });
+    // api.applyRemovalPolicy(RemovalPolicy.RETAIN)
 
     if (this.customDomain) {
-      this.stage = api.addStage(stageName, {
+      this.stage = CdkRestApix.addStage(stageName, {
         stageName: stageName,
         autoDeploy: true,
         domainMapping: {

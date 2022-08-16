@@ -1,4 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
+// import * as cdk from '@aws-cdk/core';
 import { Construct } from 'constructs';
 import { CodePipeline, CodePipelineSource, ShellStep } from 'aws-cdk-lib/pipelines';
 import { MyPipelineAppStage, AppStageRemoteProps } from './cdk-pipeline-app-stage';
@@ -14,19 +15,19 @@ export class CdkPipelineStackRemoteProps implements cdk.StackProps {
   route53ZoneName;
   stageName;
   env;
-  description;
 
-  constructor({ stageName, route53ZoneName, env, description }: RemoteConstructorProps) {
+  constructor({ stageName, route53ZoneName, env }: RemoteConstructorProps) {
     this.stageName = stageName;
     this.route53ZoneName = route53ZoneName;
     this.env = env;
-    this.description = description;
   }
 }
 
 export class CdkPipelinesStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: CdkPipelineStackRemoteProps) {
     super(scope, id, props);
+
+    const {route53ZoneName, stageName , env} = props
 
     const { GITHUB } = constants;
 
@@ -39,10 +40,10 @@ export class CdkPipelinesStack extends cdk.Stack {
     });
 
     const AppStageProps = new AppStageRemoteProps({
-      route53ZoneName: props.route53ZoneName,
-      stageName: props.stageName,
-      env: props.env,
-    })
+      route53ZoneName: route53ZoneName,
+      stageName: stageName,
+      env: env,
+    });
 
     pipeline.addStage(new MyPipelineAppStage(this, "lambdafuctions", AppStageProps));
   }

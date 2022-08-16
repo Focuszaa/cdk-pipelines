@@ -19,13 +19,13 @@ export class AppStageRemoteProps implements cdk.StackProps {
   route53ZoneName;
   stageName;
   env;
-  description;
+  // description;
 
   constructor({ stageName, route53ZoneName, env, description }: RemoteAppStageConstructorProps) {
     this.stageName = stageName;
     this.route53ZoneName = route53ZoneName;
     this.env = env;
-    this.description = description;
+    // this.description = description;
   }
 }
 
@@ -42,7 +42,11 @@ export class MyPipelineAppStage extends cdk.Stage {
     constructor(scope: Construct, id: string, props: AppStageRemoteProps) {
       super(scope, id, props);
   
-      const lambdaStack = new MyLambdaStack(this, 'LambdaStack');
+      const lambdaStack = new MyLambdaStack(this, 'LambdaStack' ,{
+        route53ZoneName: props.route53ZoneName,
+        stageName: props.stageName,
+        env: props.env,
+      });
 
       // const authorizerFnName = 'authorizer-fn';
       // const authorizerFnRole = getDefaultRole({

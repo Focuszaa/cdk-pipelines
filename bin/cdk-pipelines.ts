@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-import * as cdk from 'aws-cdk-lib';
+ import * as cdk from 'aws-cdk-lib';
+// import * as cdk from '@aws-cdk/core';
 import { CdkPipelinesStack, CdkPipelineStackRemoteProps } from '../lib/cdk-pipelines-stack';
 import constants from '../lib/constants';
 
@@ -37,7 +38,7 @@ const productionProps = new CdkPipelineStackRemoteProps({
 
 const canaryCdkPipelineStack      = new CdkPipelinesStack(app, 'canaryCdkPipelineStack', canaryProps);
 const stagingCdkPipelineStack     = new CdkPipelinesStack(app, 'stagingCdkPipelineStack', stagingProps);
-const productionCdkPipelineStack  = new CdkPipelinesStack(app, 'productionCdkPipelineStack', productionProps);
+const productionCdkPipelineStack  = new CdkPipelinesStack(app, 'CdkPipelineStack', productionProps);
 
 cdk.Tags.of(canaryCdkPipelineStack).add('environment', 'canary');
 cdk.Tags.of(stagingCdkPipelineStack).add('environment', 'staging');
