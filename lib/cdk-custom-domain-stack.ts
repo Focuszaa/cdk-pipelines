@@ -1,7 +1,8 @@
-import { DomainName } from '@aws-cdk/aws-apigatewayv2';
-import { Certificate, CertificateValidation } from '@aws-cdk/aws-certificatemanager';
-import { HostedZone, IHostedZone, RecordSet, RecordTarget, RecordType } from '@aws-cdk/aws-route53';
-import * as cdk from '@aws-cdk/core';
+import { DomainName } from '@aws-cdk/aws-apigatewayv2-alpha';
+import {Certificate,CertificateValidation} from 'aws-cdk-lib/aws-certificatemanager'
+import { HostedZone, IHostedZone, RecordSet, RecordTarget, RecordType } from 'aws-cdk-lib/aws-route53';
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 
 interface CustomDomainStackProps extends cdk.NestedStackProps {
   zoneName: string;
@@ -13,7 +14,7 @@ export class CustomDomainStack extends cdk.NestedStack {
   public readonly zone: IHostedZone;
   public readonly apigwCustomDomainName: DomainName;
 
-  constructor(scope: cdk.Construct, id: string, props: CustomDomainStackProps) {
+  constructor(scope: Construct, id: string, props: CustomDomainStackProps) {
     super(scope, id, props);
 
     const { zoneName, recordName } = props;

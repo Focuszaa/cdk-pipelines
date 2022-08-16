@@ -1,5 +1,4 @@
 import * as cdk from 'aws-cdk-lib';
-// import * as cdk from '@aws-cdk/core';
 import { Construct } from 'constructs';
 import { CodePipeline, CodePipelineSource, ShellStep } from 'aws-cdk-lib/pipelines';
 import { MyPipelineAppStage, AppStageRemoteProps } from './cdk-pipeline-app-stage';
@@ -12,9 +11,9 @@ interface RemoteConstructorProps  extends cdk.StackProps {
 }
 
 export class CdkPipelineStackRemoteProps implements cdk.StackProps {
-  route53ZoneName;
-  stageName;
-  env;
+  route53ZoneName: string
+  stageName: string
+  env?: cdk.Environment
 
   constructor({ stageName, route53ZoneName, env }: RemoteConstructorProps) {
     this.stageName = stageName;

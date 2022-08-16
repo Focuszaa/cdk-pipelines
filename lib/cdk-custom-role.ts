@@ -1,5 +1,5 @@
-import { Effect, PolicyDocument, PolicyStatement, Role, ServicePrincipal } from '@aws-cdk/aws-iam';
-import { Stack } from '@aws-cdk/core';
+import { Effect, PolicyDocument, PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
+import { Stack } from 'aws-cdk-lib';
 import constants from './constants';
 
 interface DefaultRoleProps {
