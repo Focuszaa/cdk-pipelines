@@ -24,7 +24,7 @@ diff_staging:
 	cdk diff stagingCdkPipelineStack;
 
 diff_production:
-	cdk diff productionCdkPipelineStack;
+	cdk diff CdkPipelineStack;
 
 deploy_canary:
 	cdk deploy canaryCdkPipelineStack 
@@ -33,4 +33,4 @@ deploy_staging:
 	cdk deploy stagingCdkPipelineStack 
 
 deploy_production:
-	cdk deploy productionCdkPipelineStack 
+	cdk deploy CdkPipelineStack 
