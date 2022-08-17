@@ -118,6 +118,16 @@ export class MyLambdaStack extends cdk.Stack {
         methods: [HttpMethod.GET],
         integration: helloWorldIntegration,
       });
+
+      // use auth fn when using post method
+      // api.addRoutes({
+      //   path: '/api/v1/calulateSomthings/{longType}',
+      //   methods: [HttpMethod.POST],
+      //   integration: new LambdaProxyIntegration({
+      //     handler: xxFunction,
+      //   }),
+      //   authorizer: this.auth?.authorizer,
+      // });
     }
   }
 }
